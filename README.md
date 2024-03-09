@@ -1,4 +1,4 @@
-# Cervical Posture YOLO Analysis
+# Cervical Posture - YOLO Pose Estimation
 
 ## This repository contains Python code for analyzing cervical posture in videos using YOLO pose estimation. The program can help identify potential posture problems that may lead to neck pain or discomfort.
 
