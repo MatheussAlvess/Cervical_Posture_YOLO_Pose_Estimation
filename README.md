@@ -2,6 +2,11 @@
 
 ## This repository contains Python code for analyzing cervical posture in videos using YOLO pose estimation. The program can help identify potential posture problems that may lead to neck pain or discomfort.
 
+!["GIF description"](images/cervical_posture.gif)
+
+**Disclaimer:** While this program can be a helpful tool, it should not be used as a sole method for diagnosing or treating medical conditions. Always consult with a healthcare professional for any posture-related concerns. 
+The project is still under development, it is necessary to adjust the angle values ​​based on scientific evidence. Some physiotherapists are being contacted for this purpose.
+
 ### How it Works
 
 The program follows these steps:
@@ -25,8 +30,6 @@ Analyzing cervical posture with this program offers several benefits:
 - Posture Improvement Aid: The visual feedback provided by the posture classification can guide users towards maintaining a healthy cervical posture while performing activities like watching videos or working at a computer.
 - Non-invasive and Objective Assessment: This program offers a non-invasive way to assess cervical posture compared to traditional methods that might require physical examinations or subjective evaluations.
 - Potential for Personalized Posture Training: With further development, this technology could be integrated into training programs to help users develop better postural habits.
-
-**Disclaimer:** While this program can be a helpful tool, it should not be used as a sole method for diagnosing or treating medical conditions. Always consult with a healthcare professional for any posture-related concerns.
 
 ### Installation
 
