@@ -4,9 +4,9 @@ import cv2
 import math
 
 ''' aux_dict_body_keys ={
-        'NOSE':0,           
-        'LEFT_nose':1,       
-        'RIGHT_nose':2,      
+        'eye':0,           
+        'LEFT_eye':1,       
+        'RIGHT_eye':2,      
         'LEFT_EAR':3,       
         'RIGHT_EAR':4,      
         'LEFT_SHOULDER':5,  
@@ -39,7 +39,7 @@ class CervicalPosture:
 
         self.model = YOLO(self.model_path)
 
-        self.neutral_color = (255, 255, 255)
+        self.neutral_color = (215, 200, 200)
         self.good_posture_color = (0, 255, 0)
         self.reasonable_posture_color = (255,0,0)
         self.bad_posture_color = (0, 0, 255)
@@ -91,14 +91,19 @@ class CervicalPosture:
                 keypoints = np.array(results[0].keypoints.xyn[0])
 
                 if self.side == 'left':
+                    eye = 1
                     ear = 3
                     shoulder = 5
                 else:
+                    eye = 2
                     ear = 4
                     shoulder = 6
                 
-                nose_x = int(keypoints[0][0]*w)  # right nose, x
-                nose_y = int(keypoints[0][1]*h)  # right nose, y
+                # nose_x = int(keypoints[0][0]*w)  # right nose, x
+                # nose_y = int(keypoints[0][1]*h)  # right nose, y
+                    
+                eye_x = int(keypoints[eye][0]*w)  # right eye, x
+                eye_y = int(keypoints[eye][1]*h)  # right eye, y
                 ear_x = int(keypoints[ear][0]*w)  # right ear, x
                 ear_y = int(keypoints[ear][1]*h)  # right ear, y
                 shoulder_x = int(keypoints[shoulder][0]*w)  # right shoulder, x
@@ -106,15 +111,15 @@ class CervicalPosture:
 
                 cv2.line(image, (shoulder_x, shoulder_y), (shoulder_x, shoulder_y-200), self.neutral_color, 2) #shoulder to aux conection
                 cv2.line(image, (shoulder_x, shoulder_y), (ear_x, ear_y), self.neutral_color, 2) #shoulder to ear conection
-                cv2.line(image, (ear_x, ear_y), (nose_x, nose_y), self.neutral_color, 2) #ear to nose conection
+                cv2.line(image, (ear_x, ear_y), (eye_x, eye_y), self.neutral_color, 2) #ear to eye conection
 
-                cv2.circle(image, (nose_x, nose_y), 8, self.neutral_color, -1) #nose point
+                cv2.circle(image, (eye_x, eye_y), 8, self.neutral_color, -1) #eye point
                 cv2.circle(image, (ear_x, ear_y), 8, self.neutral_color, -1) #ear point
                 cv2.circle(image, (shoulder_x, shoulder_y), 8, self.neutral_color, -1) #shoulder point
                 cv2.circle(image, (shoulder_x, shoulder_y-200), 8, self.neutral_color, -1) #aux point
 
                 neck_inclination = self.angle_finder(shoulder_x,shoulder_y,ear_x,ear_y) #shoulder to ear inclination
-                CRA_inclination = self.angle_degrees((ear_x,ear_y),(shoulder_x,shoulder_y),(nose_x,nose_y)) #shoulder to ear inclination
+                CRA_inclination = self.angle_degrees((ear_x,ear_y),(shoulder_x,shoulder_y),(eye_x,eye_y)) #shoulder to ear inclination
 
                 angle_text_string = 'Degrees -> Neck : ' + str(int(neck_inclination)) + ' CRA : ' + str(int(CRA_inclination)) 
 
@@ -126,13 +131,13 @@ class CervicalPosture:
 
                     cv2.line(image, (shoulder_x, shoulder_y), (ear_x, ear_y), posture_color, 3)
                     cv2.line(image, (shoulder_x, shoulder_y), (shoulder_x, shoulder_y - 200), self.neutral_color, 2)
-                    cv2.line(image, (nose_x, nose_y), (ear_x, ear_y), posture_color, 3)
+                    cv2.line(image, (eye_x, eye_y), (ear_x, ear_y), posture_color, 3)
 
-                if (int(neck_inclination) <= 15) and (int(CRA_inclination) >= 85) and (int(CRA_inclination) <= 95):
+                if (int(neck_inclination) <= 15) and (int(CRA_inclination) >= 95) and (int(CRA_inclination) <= 110):
                     good_text = 'Good Posture'
                     posture(self.good_posture_color,good_text)
 
-                elif (int(neck_inclination) <= 20) and (int(CRA_inclination) >= 80) and (int(CRA_inclination) <= 100):
+                elif (int(neck_inclination) <= 20) and (int(CRA_inclination) >= 90) and (int(CRA_inclination) <= 115):
                     reasonable_text = 'Reasonable Posture'
                     posture(self.reasonable_posture_color,reasonable_text)
                 else:
