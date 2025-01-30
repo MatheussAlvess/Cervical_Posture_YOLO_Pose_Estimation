@@ -9,7 +9,7 @@ The project is still under development, it is necessary to adjust the angle valu
 
 ### How it Works
 
-The program follows these steps:
+The code follows these steps:
 
 1. **YOLO Pose Estimation:** It leverages a pre-trained YOLO deep learning model to detect specific body points (nose, ears, and shoulders) in each frame of a video. YOLO is known for its speed and accuracy in object detection tasks.
 
